@@ -2,6 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import HelloWorld from './HelloWorld';
+import HelloWorldInput from './HelloWorldInput';
 
 export default function App() {
   return (
@@ -13,7 +14,7 @@ export default function App() {
         <Text>Tätä kehitetään vielä hieman!</Text>
       </View>
       <View style={styles.lowerx}>
-       <HelloWorld/>
+       <HelloWorldInput/>
       </View>
 
       <StatusBar style="auto" />
