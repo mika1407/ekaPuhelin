@@ -11,7 +11,7 @@ export default function HelloWorld() {
   return (
     <View style={styles.container2}>
       <View > 
-        <Text >Terve maailma!</Text>
+        <Text style={styles.titleText2}>Laskuri:</Text>
       </View>
       <View >
         <Text style={styles.bigCentered}>{counter}</Text>
@@ -25,6 +25,10 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+    titleText2: {
+    fontSize: 29,
+    fontWeight: "bold"
   },
   bigCentered: {
     color: 'blue',

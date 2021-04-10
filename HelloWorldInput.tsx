@@ -19,23 +19,24 @@ export default function HelloWorldInput() {
   return (
     <View style={styles.container2}>
       <View > 
-        <Text >Terve maailma!</Text>
+        <Text style={styles.titleText} >Laskuri:</Text>
       </View>
       <View >
         <Text style={styles.bigCentered}>{counter}</Text>
       </View>
       <View>
-        <Text>Anna nimi:</Text>
+        <Text style={{fontSize: 22 }}>Anna nimi:</Text>
         <TextInput
-            style = {{height: 40, borderColor: 'gray', borderWidth: 1, margin: 2}}
+            style = {{height: 40, borderColor: 'gray', borderWidth: 1, margin: 3}}
             onChangeText={text => setName(text)}
             value={name}
+            placeholder="Nimi tähän"
         />
         <Button 
             title="Lisää henkilö"
             onPress={() => showName(name)}
         />
-        <Text>{outputName}</Text>
+        <Text style={styles.titleText}>{outputName}</Text>
       </View>
     </View>
   );
@@ -46,6 +47,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+    titleText: {
+    fontSize: 25,
+    padding: 4,
+    fontWeight: "bold"
   },
   bigCentered: {
     color: 'blue',

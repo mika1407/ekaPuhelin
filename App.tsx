@@ -11,7 +11,7 @@ export default function App() {
         <Text>Tämä on minun ensimmäinen react native- sovellus!</Text>
       </View>
       <View style={styles.centerx}>
-        <Text>Tätä kehitetään vielä hieman!</Text>
+        <Text style={styles.titleText}>Tätä kehitetään vielä hieman...</Text>
       </View>
       <View style={styles.lowerx}>
        <HelloWorldInput/>
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
   upperx: {
     flex: 1,
     width: '100%',
-    backgroundColor: 'red',
+    backgroundColor: 'grey',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -40,13 +40,18 @@ const styles = StyleSheet.create({
     flex: 2,
     width: '100%',
     backgroundColor: 'orange',
+    fontFamily: "Cochin",
     alignItems: 'center',
     justifyContent: 'center',
+  },
+    titleText: {
+    fontSize: 29,
+    fontWeight: "bold"
   },
   lowerx: {
     flex: 3,
     width: '100%',
-    backgroundColor: 'green',
+    backgroundColor: '#aafabf',
     alignItems: 'center',
     justifyContent: 'center',
   },
