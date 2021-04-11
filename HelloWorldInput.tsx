@@ -20,7 +20,6 @@ export default function HelloWorldInput() {
   )
 
   return (
-    <ScrollView style={styles.scrollView} fadingEdgeLength={180}>
       <View style={styles.container2}>
         <View > 
           <Text style={styles.titleText} >Laskuri:</Text>
@@ -40,11 +39,13 @@ export default function HelloWorldInput() {
               title="Lisää henkilö"
               onPress={() => showName(name)}
           />
+          </View>
           {/* <Text style={styles.titleText}>{outputName}</Text> */}
-          <Text style={styles.titleText}>{array}</Text>
-        </View>
+        <ScrollView style={styles.scrollView} fadingEdgeLength={180}>
+            <Text style={styles.titleText}>{array}</Text>
+        </ScrollView>   
       </View>
-    </ScrollView>
+    
   );
 }
 
