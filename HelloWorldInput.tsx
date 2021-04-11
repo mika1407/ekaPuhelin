@@ -6,9 +6,12 @@ export default function HelloWorldInput() {
   const [counter, setCounter] = React.useState(0);
   const [name, setName] = useState('');
   const [outputName, changeOutputName] = useState('');
+  //Esitellään array, johon nimet tallennetaan
+  const [array, setArray] = useState<string[]>([]);
   //Functio, jota buttoni kutsuu:
   const showName = (name: string) => {
     changeOutputName(name);
+    setArray(array => [...array, '\n' + name]);
   }
 
   setTimeout(
@@ -27,7 +30,7 @@ export default function HelloWorldInput() {
       <View>
         <Text style={{fontSize: 22 }}>Anna nimi:</Text>
         <TextInput
-            style = {{height: 40, borderColor: 'gray', borderWidth: 1, margin: 3}}
+            style = {{height: 40, borderColor: 'gray', backgroundColor: 'white', padding: 4, borderWidth: 1, margin: 3}}
             onChangeText={text => setName(text)}
             value={name}
             placeholder="Nimi tähän"
@@ -36,7 +39,8 @@ export default function HelloWorldInput() {
             title="Lisää henkilö"
             onPress={() => showName(name)}
         />
-        <Text style={styles.titleText}>{outputName}</Text>
+        {/* <Text style={styles.titleText}>{outputName}</Text> */}
+        <Text style={styles.titleText}>{array}</Text>
       </View>
     </View>
   );

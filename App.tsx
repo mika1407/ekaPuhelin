@@ -8,6 +8,15 @@ export default function App() {
   return (
     <View style={styles.container}>
       <View style={styles.upperx}>
+        {/* tuodaan Careerian logo image sivulle */}
+        <View style={{alignItems: 'center', paddingTop: 15}}>
+          <Image
+              style={styles.logoCareeria}
+              source={{
+                uri: 'https://careeria.fi/Static/careeria/careeria_logo_alpha_230x67_once.gif',
+              }}
+          />
+        </View>
         <Text>Tämä on minun ensimmäinen react native- sovellus!</Text>
       </View>
       <View style={styles.centerx}>
@@ -47,9 +56,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#E0E0E0',
     alignItems: 'center',
     justifyContent: 'center',
+    paddingBottom: 10,
   },
   centerx: {
-    flex: 2,
+    flex: 1,
     width: '100%',
     backgroundColor: 'orange',
     fontFamily: "Cochin",
@@ -65,10 +75,15 @@ const styles = StyleSheet.create({
     fontWeight: "bold"
   },
   lowerx: {
-    flex: 3,
+    flex: 4,
     width: '100%',
     backgroundColor: '#aafabf',
     alignItems: 'center',
     justifyContent: 'center',
   },
+  logoCareeria: {
+    width: 230,
+    height: 67,
+    margin: 12,
+  }
 });
