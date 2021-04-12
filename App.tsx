@@ -4,6 +4,7 @@ import { StyleSheet, Image, Text, View } from 'react-native';
 import HelloWorld from './HelloWorld';
 import HelloWorldInput from './HelloWorldInput';
 import JsonList from './JsonList';
+import JsonListPressable from './JsonListPressable';
 
 export default function App() {
   return (
@@ -21,7 +22,7 @@ export default function App() {
         <Text>Tämä on minun ensimmäinen react native- sovellus!</Text>
       </View>
       <View style={styles.centerx}>
-            <JsonList />
+            <JsonListPressable />
       </View>
 
       <View style={styles.lowerx}>
@@ -49,7 +50,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   centerx: {
-    flex: 2,
+    flex: 3,
     width: '100%',
     backgroundColor: 'orange',
     fontFamily: "Cochin",
@@ -61,7 +62,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold"
   },
   lowerx: {
-    flex: 3,
+    flex: 2,
     width: '100%',
     backgroundColor: '#404040',
     alignItems: 'center',
