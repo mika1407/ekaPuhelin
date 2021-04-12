@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
   lowerx: {
     flex: 3,
     width: '100%',
-    backgroundColor: '#aafabf',
+    backgroundColor: '#404040',
     alignItems: 'center',
     justifyContent: 'center',
   },
