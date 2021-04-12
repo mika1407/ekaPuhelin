@@ -3,6 +3,7 @@ import React from 'react';
 import { StyleSheet, Image, Text, View } from 'react-native';
 import HelloWorld from './HelloWorld';
 import HelloWorldInput from './HelloWorldInput';
+import JsonList from './JsonList';
 
 export default function App() {
   return (
@@ -20,20 +21,9 @@ export default function App() {
         <Text>Tämä on minun ensimmäinen react native- sovellus!</Text>
       </View>
       <View style={styles.centerx}>
-        <Text style={styles.titleText}>Tätä kehitetään vielä hieman...</Text>
-              <Image
-        style={styles.tinyLogo}
-        source={{
-          uri: 'https://reactnative.dev/img/tiny_logo.png',
-        }}
-      />
+            <JsonList />
       </View>
-      {/* <Image
-        style={styles.tinyLogo}
-        source={{
-          uri: 'https://reactnative.dev/img/tiny_logo.png',
-        }}
-      /> */}
+
       <View style={styles.lowerx}>
        <HelloWorldInput/>
       </View>
@@ -59,23 +49,19 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   centerx: {
-    flex: 1,
+    flex: 2,
     width: '100%',
     backgroundColor: 'orange',
     fontFamily: "Cochin",
     alignItems: 'center',
     justifyContent: 'center',
   },
-    tinyLogo: {
-    width: 40,
-    height: 40,
-  },
     titleText: {
     fontSize: 29,
     fontWeight: "bold"
   },
   lowerx: {
-    flex: 4,
+    flex: 3,
     width: '100%',
     backgroundColor: '#aafabf',
     alignItems: 'center',
