@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { Text, View, StyleSheet, Image, Platform, ScrollView, TextInput, Button} from 'react-native';
 import { API_id, API_key } from './APIKeyYLE';
+import { AntDesign } from '@expo/vector-icons';
 
 
 export default function YLETekstiTV100() {
@@ -14,13 +15,14 @@ export default function YLETekstiTV100() {
               <Text style={styles.title}>Ylen tekstitv:n pääsivu</Text>
               <View style={styles.separatorLine} />
               <View style={styles.searchSection}>
-                <Button title="<<" onPress={() => changeInputPage(inputPage-1)} />
+
+                <AntDesign name="stepbackward" size={24} color="blue" onPress={() => changeInputPage(inputPage-1)} />
                 <TextInput
                     style={{ height: 40, borderColor: 'gray', borderWidth: 1, backgroundColor: 'white', fontSize: 22, textAlign: 'center', margin: 2, width: 240 }}
                     onChangeText={(text) => changeInputPage(Number(text))}
                     value={inputPage.toString()}
                 />
-                <Button title=">>" onPress={() => changeInputPage(inputPage+1)} />
+                <AntDesign name="stepforward" size={24} color="blue" onPress={() => changeInputPage(inputPage+1)} />
               </View>
               <View style={styles.imageSection}>
                 <Image
@@ -54,6 +56,7 @@ const styles = StyleSheet.create({
     searchSection: {
         flex: 1,
         justifyContent: 'center',
+        alignItems: 'center',
         flexDirection: 'row',
     },
     imageSection: {
