@@ -5,6 +5,7 @@ import HelloWorld from './HelloWorld';
 import HelloWorldInput from './HelloWorldInput';
 import JsonList from './JsonList';
 import JsonListPressable from './JsonListPressable';
+import YLETekstiTV100 from './YLETekstiTV100';
 
 export default function App() {
   return (
@@ -26,7 +27,7 @@ export default function App() {
       </View>
 
       <View style={styles.lowerx}>
-       <HelloWorldInput/>
+       <YLETekstiTV100/>
       </View>
 
       <StatusBar style="auto" />
@@ -50,7 +51,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   centerx: {
-    flex: 3,
+    flex: 1,
     width: '100%',
     backgroundColor: 'orange',
     fontFamily: "Cochin",
@@ -62,7 +63,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold"
   },
   lowerx: {
-    flex: 2,
+    flex: 4,
     width: '100%',
     backgroundColor: '#404040',
     alignItems: 'center',
