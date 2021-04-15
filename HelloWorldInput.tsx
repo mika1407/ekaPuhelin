@@ -28,7 +28,7 @@ export default function HelloWorldInput() {
           <Text style={styles.bigCentered}>{counter}</Text>
         </View>
         <View>
-          <Text style={{fontSize: 22, color:'white' }}>Anna nimi:</Text>
+          <Text style={{fontSize: 22, color:'#404040' }}>Anna nimi:</Text>
           <TextInput
               style = {{height: 40, borderColor: 'gray', backgroundColor: 'white', padding: 4, borderWidth: 1, margin: 3}}
               onChangeText={text => setName(text)}
@@ -59,7 +59,8 @@ const styles = StyleSheet.create({
     fontSize: 25,
     padding: 4,
     fontWeight: "bold",
-    color: 'white',
+    color: '#404040',
+    textAlign: 'center',
   },
   bigCentered: {
     color: '#99ccff',

@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
         textShadowOffset: { width: 1, height: 1 },
         textShadowColor: '#D1D1D1',
         textAlign: 'center',
-        color: 'white',
+        color: '#404040',
     },
 
     separatorLine: {
