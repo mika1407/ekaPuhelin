@@ -4,15 +4,35 @@ import { API_id, API_key } from './APIKeyYLE';
 import { AntDesign } from '@expo/vector-icons';
 
 
+const getCurrentDate=()=>{
+
+      var date = new Date().getDate();
+      var month = new Date().getMonth() + 1;
+      var year = new Date().getFullYear();
+
+      //Alert.alert(date + '-' + month + '-' + year);
+      // You can turn it in to your desired format
+      //return date + '-' + month + '-' + year;//format: dd-mm-yyyy;
+      return date + '.' + month + '.' + year;//format: dd.mm.yyyy;
+}
+
+
 export default function YLETekstiTV() {
     const [imageUrl, setUrl] = useState<string>();
     const [inputPage, changeInputPage] = useState(100);
-    var url = 'https://external.api.yle.fi/v1/teletext/images/' + inputPage + '/1.png?app_id=' + API_id + '&app_key=' + API_key ;
+    var url = 'https://external.api.yle.fi/v1/teletext/images/' + inputPage + '/1.png?app_id=' + API_id + '&app_key=' + API_key + "&date=" + getCurrentDate;
+
+//  const ImageYle = () => (  
+//     <Image source = {require('C:\Users\konea\Desktop\DatanomiKevät2021\ReactNative\ekaPuhelin\Images\yle.png')} />
+//  )
 
     useEffect(() => {
         fetch (url).then(function(response){
             var responseData = response.status
             if (responseData === 404) {
+                console.log("kääk")
+                var date = new Date().getDate();
+                console.log(getCurrentDate())
                 setUrl('https://yle.fi/uutiset/assets/img/share_image_v1.png')
             }
             else{
@@ -24,7 +44,7 @@ export default function YLETekstiTV() {
   return (
       <View style={styles.mainContainer}>
           <ScrollView contentContainerStyle={styles.scrollViewPage}>
-              <Text style={styles.title}>Ylen tekstitv:n pääsivu!!!</Text>
+              <Text style={styles.title}>Ylen tekstitv:n pääsivu!</Text>
               <View style={styles.separatorLine} />
               <View style={styles.searchSection}>
 

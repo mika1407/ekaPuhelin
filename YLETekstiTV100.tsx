@@ -2,10 +2,22 @@ import React from 'react';
 import { Text, View, StyleSheet, Image, Platform, ScrollView, TextInput, Button} from 'react-native';
 import { API_id, API_key } from './APIKeyYLE';
 
+const getCurrentDate=()=>{
+
+      var date = new Date().getDate();
+      var month = new Date().getMonth() + 1;
+      var year = new Date().getFullYear();
+
+      //Alert.alert(date + '-' + month + '-' + year);
+      // You can turn it in to your desired format
+      return date + '-' + month + '-' + year;//format: dd-mm-yyyy;
+}
+
 
 export default function YLETekstiTV100() {
-    var imageUrl = 'https://external.api.yle.fi/v1/teletext/images/' + 100 + '/1.png?app_id=' + API_id + '&app_key=' + API_key + "&date=" + Date.now.toString();
-      
+    var imageUrl = 'https://external.api.yle.fi/v1/teletext/images/' + 100 + '/1.png?app_id=' + API_id + '&app_key=' + API_key + "&date=" + getCurrentDate;
+  //+ "&date=" + Date.now.toString();   ...poistettu koodi imageUrl lopusta
+
   return (
       <View style={styles.mainContainer}>
           <ScrollView contentContainerStyle={styles.scrollViewPage}>
