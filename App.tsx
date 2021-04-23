@@ -13,6 +13,7 @@ import JsonList from './JsonList';
 import JsonListPressable from './JsonListPressable';
 import YLETekstiTV100 from './YLETekstiTV100';
 import YLETekstiTv from './YLETekstiTv';
+import NWTuotteetList from './NWTuotteetList';
 
 export default function App() {
       //Muuttujien esittely:
@@ -47,7 +48,8 @@ export default function App() {
             <Tab.Screen name="JsonList" component={JsonList} options={{ tabBarIcon: () => <Octicons name="database" color="#333" size={iconSize} /> }} />
             <Tab.Screen name="JsonListPressable" component={JsonListPressable} options={{ tabBarIcon: () => <Octicons name="desktop-download" color="#333" size={iconSize} /> }} />
             <Tab.Screen name="YLETekstiTV100" component={YLETekstiTV100} options={{ tabBarIcon: () => <Octicons name="broadcast" color="#333" size={iconSize} /> }} />
-            <Tab.Screen name="YLETekstiTv" component={YLETekstiTv} options={{ tabBarIcon: () => <Octicons name="list-unordered" color="#333" size={iconSize} /> }} />
+            <Tab.Screen name="YLETekstiTv" component={YLETekstiTv} options={{ tabBarIcon: () => <Octicons name="versions" color="#333" size={iconSize} /> }} />
+            <Tab.Screen name="NWTuotteetList" component={NWTuotteetList} options={{ tabBarIcon: () => <Octicons name="list-unordered" color="#333" size={iconSize} /> }} />
 
         </Tab.Navigator>
     </NavigationContainer>
