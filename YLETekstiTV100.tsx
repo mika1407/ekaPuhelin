@@ -15,8 +15,9 @@ const getCurrentDate=()=>{
 
 
 export default function YLETekstiTV100() {
-    var imageUrl = 'https://external.api.yle.fi/v1/teletext/images/' + 100 + '/1.png?app_id=' + API_id + '&app_key=' + API_key + "&date=" + getCurrentDate;
+    // var imageUrl = 'https://external.api.yle.fi/v1/teletext/images/' + 100 + '/1.png?app_id=' + API_id + '&app_key=' + API_key + "&date=" + getCurrentDate;
   //+ "&date=" + Date.now.toString();   ...poistettu koodi imageUrl lopusta
+      var imageUrl = 'https://external.api.yle.fi/v1/teletext/images/' + 100 + '/1.png?app_id=' + API_id + '&app_key=' + API_key + '&random='+ Math.floor(Math.random() * 100000).toString;
 
   return (
       <View style={styles.mainContainer}>

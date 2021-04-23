@@ -13,7 +13,7 @@ export default function YLETekstiTV() {
 
 
     useEffect(() => {
-        fetch (url).then(function(response){
+        fetch (url, { cache: "no-cache" }).then(function(response){
             var responseData = response.status
             if (responseData === 404) {
                 setUrl('https://yle.fi/uutiset/assets/img/share_image_v1.png')
@@ -22,7 +22,7 @@ export default function YLETekstiTV() {
                 setUrl(url)
             }
         })
-    })
+    }, [inputPage])
       
   return (
       <View style={styles.mainContainer}>
