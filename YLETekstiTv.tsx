@@ -8,12 +8,18 @@ export default function YLETekstiTV() {
     const [imageUrl, setUrl] = useState<string>();
     const [inputPage, changeInputPage] = useState(100);
     
-    // var url = 'https://external.api.yle.fi/v1/teletext/images/' + inputPage + '/1.png?app_id=' + API_id + '&app_key=' + API_key +  Math.floor(Math.random() * 100000);
+    //var url = 'https://external.api.yle.fi/v1/teletext/images/' + inputPage + '/1.png?app_id=' + API_id + '&app_key=' + API_key;
     var url = 'https://external.api.yle.fi/v1/teletext/images/' + inputPage + '/1.png?app_id=' + API_id + '&app_key=' + API_key + '&random='+ Math.floor(Math.random() * 100000).toString;
 
+    var myHeaders = new Headers();
+    myHeaders.set('Accept', 'application/json');
+    myHeaders.set('Content-Type', 'application/json');
+    myHeaders.set('Chche-Control', 'no-cache');
+    myHeaders.set('Pragma','no-cache');
+    myHeaders.set('Expires', '0');
 
     useEffect(() => {
-        fetch (url).then(function(response){
+        fetch (url, { method: 'GET', headers: myHeaders }).then(function(response){
             var responseData = response.status
             if (responseData === 404) {
                 setUrl('https://yle.fi/uutiset/assets/img/share_image_v1.png')

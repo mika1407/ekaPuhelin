@@ -65,7 +65,7 @@ export default function NWTuotteetList() {
         <ScrollView>
           {inventoryItems.map((item: INWProductsResponse) => (
 
-              <Pressable onPress={() => {/*this.props.navigation.navigate('ProductDetails', {productDetails: item})*/ }}
+              <Pressable key={idGenerator()} onPress={() => {/*this.props.navigation.navigate('ProductDetails', {productDetails: item})*/ }}
               style={({ pressed }) => [{ backgroundColor: pressed ? 'rgba(49, 179, 192, 0.5)' : 'white' }]}
                 onLongPress={() => {
                     setProductDetailsModal(true);
@@ -73,8 +73,7 @@ export default function NWTuotteetList() {
                 >
                   <View key={item.productId.toString()} style={styles.productsContainer}>
                     {/*Mikäli item.imageLink on undefined -> näytetään default -kuva, muuten item.imageLink*/}
-                    <Image key={idGenerator()} source={item.imageLink ? { uri: item.imageLink } : { uri: 'https://www.tibs.org.tw/images/default.jpg' }} 
-                        style={[styles.centerSection, { height: 60, width: 60, backgroundColor: '#eeeeee', margin: 6, }]} />
+                    <Image key={idGenerator()} source={item.imageLink ? { uri: item.imageLink } : { uri: 'https://www.tibs.org.tw/images/default.jpg' }} style={[styles.centerSection, { height: 60, width: 60, backgroundColor: '#eeeeee', margin: 6, }]} />
                     <View key={idGenerator()} style={{ flexGrow: 1, flexShrink: 1, alignSelf: 'center' }}>
                         <Text key={idGenerator()} style={{ fontSize: 15 }}>{item.productName}</Text>
                         <Text key={idGenerator()} style={{ color: '#8f8f8f' }}>{item.category ? 'Variation: ' + item.category : ''}</Text>
