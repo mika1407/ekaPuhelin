@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View, ScrollView, Image, Pressable, Modal, TouchableHighlight, ActivityIndicator } from 'react-native';
+import { Text, View, ScrollView, Image, Pressable, Modal, TouchableHighlight, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { FontAwesome5, Octicons } from '@expo/vector-icons'; //iconit käyttöön!
 import styles from './styles/styles';
 import ProductDetails from './ProductDetails';
+import EditProduct from './EditProduct';
 
 interface INWProductsResponse {
     //Typescript -interface käytetään productItems -muuttujassa json
@@ -28,6 +29,7 @@ export default function NWTuotteetListModular() {
     const [productItemsCount, setproductItemsCount] = useState(0);
     const [ProductId, setProductId] = useState(0);
     const [productDetailsModal, setProductDetailsModal] = useState(false);
+    const [productEditModal, setProductEditModal] = useState(false);
     {/*Tuotelistan päivityksen muuttujat*/ }
     const [refreshProducts, setRefreshProducts] = useState(false);
     const [refreshIndicator, setRefreshIndicator] = useState(false);
@@ -53,9 +55,18 @@ export default function NWTuotteetListModular() {
         setRefreshIndicator(true);
     }
 
-    //Modaali-ikkunan sulkeminen
+    //Tuotteen muokkaus
+    function editProductFunc(item: INWProductsResponse) {
+        setProduct(item);  //asettaa product -hooks-objektiin klikatun tuotteen koko recordin (objektin)
+        setProductEditModal(true); //Näytetään edit -ikkuna
+    }
+
+     //Modaali-ikkunan sulkeminen
     function closeDetailsModal() {
         setProductDetailsModal(!productDetailsModal);
+    }
+    function closeEditModal() {
+        setProductEditModal(!productEditModal);
     }
 
     return (
@@ -95,6 +106,16 @@ export default function NWTuotteetListModular() {
                             </View>
                             {/*Euro -merkki tulee '\u20AC' käyttämällä...*/}
                             {/*á -merkki tulee '\u00E1' käyttämällä...*/}
+                            {/* HOX UUSIA PAINIKKEITA - edit  */}
+                            <View style={{ padding:2, marginRight: 10, marginTop: 30}}>
+                                <TouchableOpacity style={[{ width: 32, height: 32 }]} onPress={() => editProductFunc(item)}>
+                                    <Octicons name="pencil" size={24} color="black" />
+                                </TouchableOpacity>
+                                {/* HOX Delete Product */}
+                                {/* <TouchableOpacity style={[{ width: 32, height: 32}]} onPress={() => deleteProductFunc(item)}>
+                                    <Octicons name="trashcan" size={24} color="black" />
+                                </TouchableOpacity> */}
+                            </View>
                         </View>
 
                     </Pressable>
@@ -110,7 +131,29 @@ export default function NWTuotteetListModular() {
                         <ProductDetails closeModal={closeDetailsModal} passProductId={ product.productId } />
 
                     </Modal>
-                ) : null }        
+                ) : null }
+
+                {/* editProduct -komponentti */}
+                { productEditModal ? (
+                    <Modal style={[styles.modalContainer]}
+                        animationType="fade"
+                        transparent={true}
+                        visible={true}
+                    >
+                        <EditProduct closeModal={closeEditModal} refreshAfterEdit={refreshJsonData} passProductId={product.productId} />
+                    </Modal>
+                ) : null}
+
+                {/* deleteProduct -komponentti */}
+                {/* { productDeleteModal ? (
+                    <Modal style={[styles.modalContainer]}
+                        animationType="slide"
+                        transparent={true}
+                        visible={true}
+                    >
+                        <DeleteProduct closeModal={closeDeleteModal} refreshAfterEdit={refreshJsonData} passProductId={product.productId} />
+                    </Modal>
+                ) : null}        */}
 
             </ScrollView>
         </View>
