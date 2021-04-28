@@ -90,7 +90,7 @@ export default function NWTuotteetListModular() {
                                 style={[styles.centerSection, { height: 60, width: 60, backgroundColor: '#eeeeee', margin: 6, }]} />
                             <View style={{ flexGrow: 1, flexShrink: 1, alignSelf: 'center' }}>
                                 <Text style={{ fontSize: 15 }}>{item.productName}</Text>
-                                <Text style={{ color: '#8f8f8f' }}>{item.category ? 'Variation: ' + item.category : ''}</Text>
+                                <Text style={{ color: '#8f8f8f' }}>{item.categoryId ? 'Variation: ' + item.categoryId : ''}</Text>
                                 <Text style={{ color: '#333333', marginBottom: 10 }}>{'\u00E1 ' + (item.unitPrice == null ? 'unitprice is missing ' : item.unitPrice.toFixed(2))  + '\u20AC'}</Text>
                             </View>
                             {/*Euro -merkki tulee '\u20AC' käyttämällä...*/}
