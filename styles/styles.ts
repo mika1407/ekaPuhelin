@@ -10,19 +10,19 @@ const styles = StyleSheet.create({
 	topSection: {
 		flexDirection: 'row', 
 		justifyContent:'space-between',
-        backgroundColor: '#fff', 
+    backgroundColor: '#fff', 
 		padding: 20,
 	},
 	pickerSection: {
 		flexDirection: 'row', 
 		justifyContent:'center',
-        backgroundColor: '#fff', 
+    backgroundColor: '#fff', 
 		padding: 0,
 		borderColor: 'gray',
 		borderWidth: 1,
     },
     centerSection: {
-        justifyContent: 'center',
+    justifyContent: 'center',
 		alignItems: 'center',
     },
 	centerElement: {
@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
 		textAlign: "center"
 	},
 	modalContainer: {
-	    display: Platform.OS === 'web' ? 'none' : undefined,
+	  display: Platform.OS === 'web' ? 'none' : undefined,
 		position: Platform.OS === 'web' ? 'relative' : undefined,
 		width: Platform.OS === 'web' ? '100%' : undefined,
 		height: Platform.OS === 'web' ? '100%' : undefined,

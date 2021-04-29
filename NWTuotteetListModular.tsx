@@ -4,6 +4,9 @@ import { FontAwesome5, Octicons } from '@expo/vector-icons'; //iconit käyttöö
 import styles from './styles/styles';
 import ProductDetails from './ProductDetails';
 import EditProduct from './EditProduct';
+import CreateProduct from './CreateProduct';
+import DeleteProduct from './DeleteProduct';
+import {Picker} from '@react-native-picker/picker'; //Lisätty dropdown https://reactnative.dev/docs/picker on deprecated, joten käytetään ohjeistuksen mukaista pickeriä
 
 interface INWProductsResponse {
     //Typescript -interface käytetään productItems -muuttujassa json
@@ -23,6 +26,15 @@ interface INWProductsResponse {
     checked: any;
 }
 
+//HOX FILTER
+interface INWCategories {
+    //Typescript -interface
+    categoryId: number;
+    categoryName: string;
+    description: string;
+    picture: string;
+}
+
 export default function NWTuotteetListModular() {
     const [product, setProduct] = useState<Partial<INWProductsResponse>>({});
     const [productItems, setproductItems] = useState<any>([]);
@@ -30,11 +42,27 @@ export default function NWTuotteetListModular() {
     const [ProductId, setProductId] = useState(0);
     const [productDetailsModal, setProductDetailsModal] = useState(false);
     const [productEditModal, setProductEditModal] = useState(false);
+    const [productCreateModal, setProductCreateModal] = useState(false);
+    const [productDeleteModal, setProductDeleteModal] = useState(false);
+    //HOX FILTER
+    const [categories, setCategories] = useState<any>([]);
+    const [selectedCat, setSelectedCat] = useState<any>("All");
     {/*Tuotelistan päivityksen muuttujat*/ }
     const [refreshProducts, setRefreshProducts] = useState(false);
     const [refreshIndicator, setRefreshIndicator] = useState(false);
+    //Picker
+    const [dropdownCategory, setDropdownCategory] = useState('All');
+
+    //HOX FILTER
+    const categoriesList = categories.map((cat: INWCategories, index: any) => {
+        return (
+            <Picker.Item label={cat.categoryName} value={cat.categoryId} key={index} />
+        )
+    });
 
     useEffect(() => {
+        //HOX FILTER GetCategories();
+        GetCategories();
         GetProducts();
     }, [refreshProducts]);
 
@@ -42,10 +70,30 @@ export default function NWTuotteetListModular() {
         let uri = 'https://webapivscareeria.azurewebsites.net/nw/products/';
         fetch(uri)
             .then(response => response.json())
-            .then((json: INWProductsResponse) => {
-                setproductItems(json); //Tuotteet kirjoitetaan productItems -array muuttujaan.
-                const fetchCount = Object.keys(json).length; //Lasketaan montako tuotenimikettä on yhteensä.
-                setproductItemsCount(fetchCount); //Kirjoitetaan tuotenimikkeiden määrä productItemsCount -muuttujaan.
+            .then((json: INWProductsResponse[]) => {
+                if (selectedCat === "All") { 
+                    setproductItems(json); //Tuotteet kirjoitetaan productItems -array muuttujaan.
+                    const fetchCount = Object.keys(json).length; //Lasketaan montako tuotenimikettä on yhteensä.
+                    setproductItemsCount(fetchCount); //Kirjoitetaan tuotenimikkeiden määrä productItemsCount -muuttujaan.
+                }
+                else {
+                    const filtered = json.filter(x => x.categoryId === parseInt(selectedCat)); //Dropdown -listan categoryid:n omaavat tuotteet haetaan inventoryItems -array muuttujaan.
+                    setproductItems(filtered);
+                    const fetchCount = Object.keys(filtered).length; //Lasketaan montako tuotenimikettä on yhteensä.
+                    setproductItemsCount(fetchCount); //Kirjoitetaan tuotenimikkeiden määrä productItemsCount -muuttujaan.
+                }
+
+            })
+        setRefreshIndicator(false);
+    }
+
+    //HOX FILTER
+    function GetCategories() {
+        let uri = 'https://webapivscareeria.azurewebsites.net/nw/products/getcat';
+        fetch(uri)
+            .then(response => response.json())
+            .then((json: INWCategories) => {
+                setCategories(json);
             })
         setRefreshIndicator(false);
     }
@@ -61,6 +109,17 @@ export default function NWTuotteetListModular() {
         setProductEditModal(true); //Näytetään edit -ikkuna
     }
 
+    //Create - Tuotteen lisäys
+    function createProductFunc() {
+        setProductCreateModal(true); //Näytetään create -ikkuna
+    }
+
+    //Tuotteen poisto!
+    function deleteProductFunc(item: INWProductsResponse) {
+        setProduct(item);  //asettaa product -hooks-objektiin klikatun tuotteen koko recordin (objektin)
+        setProductDeleteModal(true); //Näytetään edit -ikkuna
+    }
+
      //Modaali-ikkunan sulkeminen
     function closeDetailsModal() {
         setProductDetailsModal(!productDetailsModal);
@@ -68,6 +127,22 @@ export default function NWTuotteetListModular() {
     function closeEditModal() {
         setProductEditModal(!productEditModal);
     }
+    //Create -ikkunan sulkeminen
+    function closeCreateModal() {
+        setProductCreateModal(!productCreateModal);
+    }
+    //Delete -ikkunan sulkeminen
+    function closeDeleteModal() {
+        setProductDeleteModal(!productDeleteModal);
+    }
+
+    //Haetaan dropdown filter
+    //HOX FILTER
+    function fetchFiltered(value: any) {
+        setSelectedCat(value);
+        setRefreshProducts(!refreshProducts);
+    }
+
 
     return (
         <View style={[styles.mainWrapper]}>
@@ -82,8 +157,28 @@ export default function NWTuotteetListModular() {
                     </View>
                 </Pressable>
                 <ActivityIndicator size="small" color="#0000ff" animating={refreshIndicator} />{/* ActivityIndicator aktivoituu refreshJsonData() -funktiossa ja se deaktivoidaan GetProducts() -funktiossa */}
-
+                {/* //HOX Create HOX uusi plus-painike 4s päivä*/}
+                <Pressable onPress={() => createProductFunc()}>
+                    <View>
+                        <Octicons name="plus" size={24} color="green" />
+                    </View>
+                </Pressable>  
             </View>
+            <View style={[styles.pickerSection]}>   
+                {/* Lisää picker ylämenuun */}
+                <Picker
+                    prompt='Valitse tuoteryhmä'
+                    selectedValue={selectedCat}
+                    style={{ height: 50, width: 250 }}
+                    onValueChange={(value) => fetchFiltered(value)}
+                >
+                    <Picker.Item label="Hae kaikki tuoteryhmät" value="All" />
+                    {categoriesList}
+                </Picker>
+                {/* picker ylämenuun */}
+            </View>
+
+            
             <ScrollView>
                 {productItems.map((item: INWProductsResponse) => (
 
@@ -112,12 +207,11 @@ export default function NWTuotteetListModular() {
                                     <Octicons name="pencil" size={24} color="black" />
                                 </TouchableOpacity>
                                 {/* HOX Delete Product */}
-                                {/* <TouchableOpacity style={[{ width: 32, height: 32}]} onPress={() => deleteProductFunc(item)}>
+                                <TouchableOpacity style={[{ width: 32, height: 32}]} onPress={() => deleteProductFunc(item)}>
                                     <Octicons name="trashcan" size={24} color="black" />
-                                </TouchableOpacity> */}
+                                </TouchableOpacity>
                             </View>
                         </View>
-
                     </Pressable>
                 ))}
                 {/* DetailsModal -komponentin kutsu */}
@@ -143,9 +237,19 @@ export default function NWTuotteetListModular() {
                         <EditProduct closeModal={closeEditModal} refreshAfterEdit={refreshJsonData} passProductId={product.productId} />
                     </Modal>
                 ) : null}
+                {/* //HOX Create CreateProduct -komponentti */}
+                { productCreateModal ? (
+                    <Modal style={[styles.modalContainer]}
+                        animationType="fade"
+                        transparent={true}
+                        visible={true}
+                    >
+                        <CreateProduct closeModal={closeCreateModal} refreshAfterEdit={refreshJsonData} />
+                    </Modal>
+                ) : null} 
 
                 {/* deleteProduct -komponentti */}
-                {/* { productDeleteModal ? (
+                { productDeleteModal ? (
                     <Modal style={[styles.modalContainer]}
                         animationType="slide"
                         transparent={true}
@@ -153,8 +257,7 @@ export default function NWTuotteetListModular() {
                     >
                         <DeleteProduct closeModal={closeDeleteModal} refreshAfterEdit={refreshJsonData} passProductId={product.productId} />
                     </Modal>
-                ) : null}        */}
-
+                ) : null}       
             </ScrollView>
         </View>
     );
