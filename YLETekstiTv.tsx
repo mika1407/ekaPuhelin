@@ -11,15 +11,17 @@ export default function YLETekstiTV() {
     //var url = 'https://external.api.yle.fi/v1/teletext/images/' + inputPage + '/1.png?app_id=' + API_id + '&app_key=' + API_key;
     var url = 'https://external.api.yle.fi/v1/teletext/images/' + inputPage + '/1.png?app_id=' + API_id + '&app_key=' + API_key + '&random='+ Math.floor(Math.random() * 100000).toString;
 
-    var myHeaders = new Headers();
-    myHeaders.set('Accept', 'application/json');
-    myHeaders.set('Content-Type', 'application/json');
-    myHeaders.set('Chche-Control', 'no-cache');
-    myHeaders.set('Pragma','no-cache');
-    myHeaders.set('Expires', '0');
+    // var myHeaders = new Headers();
+    // myHeaders.set('Accept', 'application/json');
+    // myHeaders.set('Content-Type', 'application/json');
+    // myHeaders.set('Cache-Control', 'no-cache');
+    // myHeaders.set('Pragma','no-cache');
+    // myHeaders.set('Expires', '0');
+
 
     useEffect(() => {
-        fetch (url, { method: 'GET', headers: myHeaders }).then(function(response){
+        //fetch (url, { method: 'GET', headers: myHeaders }).then(function(response){
+        fetch (url, { cache: "no-cache" }).then(function(response){
             var responseData = response.status
             if (responseData === 404) {
                 setUrl('https://yle.fi/uutiset/assets/img/share_image_v1.png')
@@ -29,11 +31,12 @@ export default function YLETekstiTV() {
             }
         })
     })
+
       
   return (
       <View style={styles.mainContainer}>
           <ScrollView contentContainerStyle={styles.scrollViewPage}>
-              <Text style={styles.title}>Ylen tekstitv:n pääsivu!</Text>
+              <Text style={styles.title}>Ylen tekstitv:n pääsivu!!</Text>
               <View style={styles.separatorLine} />
               <View style={styles.searchSection}>
 

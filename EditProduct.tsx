@@ -21,12 +21,21 @@ interface INWProductsResponse {
     category: string;
     supplier: string;
     checked: any;
-}               
+}
+//HOX FILTER
+interface INWCategories {
+    categoryId: number;
+    categoryName: string;
+    description: string;
+    picture: string;
+}
+
 const EditProduct = (props: { passProductId: any, closeModal: any, refreshAfterEdit: any }) => {
     let ProductId = props.passProductId; //Propsi, jonka kutsuva ohjelma asettaa tälle komponentille
     const [ProductName, setProductName] = useState('...');
     const [SupplierId, setSupplierId] = useState('0');
-    const [CategoryId, setCategoryId] = useState('0');
+    const [CategoryId, setCategoryId] = useState(0);  //picker tieotyyppi number
+    const [CategoryName, setCategoryName] = useState('');
     const [QuantityPerUnit, setQuantityPerUnit] = useState('0');
     const [UnitPrice, setUnitPrice] = useState('0');
     const [UnitsInStock, setUnitsInStock] = useState('0');
@@ -37,7 +46,18 @@ const EditProduct = (props: { passProductId: any, closeModal: any, refreshAfterE
     //HOX Validation - jos ei mene läpi, ei tallennapainike ole aktiivinen
     let validaatio = false;
 
+    const [selectedCat, setSelectedCat] = useState<any>("All");
+    //HOX FILTER
+    const [categories, setCategories] = useState<any>([]);
+    //HOX - Picker list for dropdown
+    const categoriesList = categories.map((cat: INWCategories, index: any) => {
+        return (
+            <Picker.Item label={cat.categoryId + ' - ' +cat.categoryName} value={cat.categoryId} key={index} />
+        )
+    });
+
     useEffect(() => {
+        GetCategories();
         GetProductData();
     }, [props.passProductId]); //ainakun productId -muuttuu päivitetään useEffect...
 
@@ -49,7 +69,7 @@ const EditProduct = (props: { passProductId: any, closeModal: any, refreshAfterE
             .then((json: INWProductsResponse) => {
                 setProductName(json.productName);
                 setSupplierId(json.supplierId.toString());
-                setCategoryId(json.categoryId.toString());
+                setCategoryId(json.categoryId);             //HOX tietotyyppi number
                 setQuantityPerUnit(json.quantityPerUnit);
                 setUnitPrice(json.unitPrice.toString());
                 setUnitsInStock(json.unitsInStock.toString());
@@ -58,6 +78,16 @@ const EditProduct = (props: { passProductId: any, closeModal: any, refreshAfterE
                 setDiscontinued(json.discontinued);
                 setImageLink(json.imageLink);
         })
+    }
+
+    //HOX dropdown
+    function GetCategories() {
+        let uri = 'https://webapivscareeria.azurewebsites.net/nw/products/getcat';
+        fetch(uri)
+            .then(response => response.json())
+            .then((json: INWCategories) => {
+                setCategories(json);
+            })
     }
 
     //Tuotteen muokkaus
@@ -311,7 +341,7 @@ const EditProduct = (props: { passProductId: any, closeModal: any, refreshAfterE
                     />
 
                     <Text style={styles.inputTitle}>Kategoria:</Text>
-                    <TextInput style={styles.editInput}
+                    {/* <TextInput style={styles.editInput}
                         underlineColorAndroid="transparent"
                         onChangeText={val => setCategoryId(val)}
                         value={CategoryId.toString()}
@@ -319,7 +349,19 @@ const EditProduct = (props: { passProductId: any, closeModal: any, refreshAfterE
                         autoCapitalize="none"
                         keyboardType='numeric'
                         selectTextOnFocus={true}
-                    />
+                    /> */}
+
+                    {/* HOX -picker Lisää picker edit-kenttien lomaan */}
+                    <Picker
+                        prompt='Valitse tuoteryhmä'
+                        mode="dropdown"
+                        selectedValue={CategoryId}
+                        style={{ left:10, height: 50, width: 220, padding: 10}}
+                        onValueChange={val => {setCategoryId(val)}}         
+                    >
+                        {categoriesList}
+                    </Picker>
+                    {/* picker edit-kenttien lomaan */}
 
                     <Text style={styles.inputTitle}>Pakkauksen koko:</Text>
                     <TextInput style={styles.editInput}
