@@ -21,7 +21,32 @@ interface INWProductsResponse {
     category: string;
     supplier: string;
     checked: any;
-}               
+}   
+
+//picker 1
+interface INWCategories {
+    categoryId : number;
+    categoryName: string;
+    description: string;
+    picture: string;
+}
+
+//picker 2
+interface INWSuppliers {
+    supplierId: number;
+    companyName: string;
+    contactName: string;
+    contactTitle: string;
+    address: string;
+    city: string;
+    region: string;
+    postalCode: string;
+    country: string;
+    phone: string;
+    fax: string;
+    homePage: string;
+}
+
 const CreateProduct = (props: { closeModal: any, refreshAfterEdit: any }) => {
     const [ProductName, setProductName] = useState('...');
     const [SupplierId, setSupplierId] = useState('0');
@@ -35,6 +60,51 @@ const CreateProduct = (props: { closeModal: any, refreshAfterEdit: any }) => {
     const [ImageLink, setImageLink] = useState('...');
     //HOX Validation - jos ei mene läpi, ei tallennapainike ole aktiivinen
     let validaatio = false;
+
+    //PICKER 
+    const [categories, setCategories] = useState<any>([]);
+    const [selectedCat, setSelectedCat] = useState<any>("All");
+
+    const [suppliers, setSuppliers] = useState<any>([]);
+    const [selectedSup, setSelectedSup] = useState<any>("All");
+
+    //picker 1
+    const categoriesList = categories.map((cat: INWCategories, index:any) => {
+        return (
+            <Picker.Item label={cat.categoryId + ' - ' + cat.categoryName} value={cat.categoryId} key={index} />
+        )
+    });
+
+    //picker 2
+    const suppliersList = suppliers.map((sup: INWSuppliers, index:any) => {
+        return (
+            <Picker.Item label={sup.companyName} value={sup.supplierId} key={index} />
+        )
+    });
+
+    //pickerit
+    useEffect(() => {
+        GetCategories();
+        GetSuppliers();
+    });
+
+    function GetCategories() {
+        let uri = 'https://webapivscareeria.azurewebsites.net/nw/products/getcat';
+        fetch(uri)
+            .then(response => response.json())
+            .then((json: INWCategories) => {
+                setCategories(json);
+            })
+    }
+
+        function GetSuppliers() {
+        let uri = 'https://webapivscareeria.azurewebsites.net/nw/products/getsupplier';
+        fetch(uri)
+            .then(response => response.json())
+            .then((json: INWSuppliers) => {
+                setSuppliers(json);
+            })
+    }
 
  
     //Tuotteen lisäys
@@ -110,6 +180,16 @@ const CreateProduct = (props: { closeModal: any, refreshAfterEdit: any }) => {
     function closeModalAndRefresh() {
         props.closeModal();
         props.refreshAfterEdit();
+    }
+
+    //HOX picker 1 fetch
+    function fetchCategory(value: any) {
+        setSelectedCat(value);
+    }
+
+    //HOX picker 2 fetch
+    function fetchSupplier(value: any) {
+        setSelectedSup(value);
     }
 
     //2-vaihe Validointi
@@ -195,14 +275,24 @@ const CreateProduct = (props: { closeModal: any, refreshAfterEdit: any }) => {
                     />
 
                     <Text style={styles.inputTitle}>Kategoria:</Text>
-                    <TextInput style={styles.editInput}
+                    {/* <TextInput style={styles.editInput}
                         underlineColorAndroid="transparent"
                         onChangeText={val => setCategoryId(val)}
                         placeholderTextColor="#9a73ef"
                         autoCapitalize="none"
                         keyboardType='numeric'
                         selectTextOnFocus={true}
-                    />
+                    /> */}
+                    {/* picker 1 */}
+                    <Picker
+                        prompt="Valitse kategoria"
+                        selectedValue={selectedCat}
+                        style={{ height: 50, width: 260 }}
+                        onValueChange={(val) => setCategoryId(val)}
+                    >
+                        <Picker.Item label="Valitse kategoria" value="All" />
+                        {categoriesList}
+                    </Picker>
 
                     <Text style={styles.inputTitle}>Pakkauksen koko:</Text>
                     <TextInput style={styles.editInput}
@@ -215,14 +305,25 @@ const CreateProduct = (props: { closeModal: any, refreshAfterEdit: any }) => {
                     />
 
                     <Text style={styles.inputTitle}>Tavarantoimittaja:</Text>
-                    <TextInput style={styles.editInput}
+                    {/* <TextInput style={styles.editInput}
                         underlineColorAndroid="transparent"
                         onChangeText={val => setSupplierId(val)}
                         placeholderTextColor="#9a73ef"
                         autoCapitalize="none"
                         keyboardType='numeric'
                         selectTextOnFocus={true}
-                    />
+                    /> */}
+                    {/* picker 2 */}
+                    <Picker
+                        prompt="Valitse toimittaja"
+                        selectedValue={selectedSup}
+                        style={{ height: 50, width: 260 }}
+                        onValueChange={(val) => setSupplierId(val)}
+                    >
+                        <Picker.Item label="Valitse toimittaja" value="All" />
+                        {suppliersList}
+                    </Picker>
+
 
                     <Text style={styles.inputTitle}>Tuote poistunut:</Text>
                     <View style={{ flexDirection: 'row', marginLeft: 15, }}>
