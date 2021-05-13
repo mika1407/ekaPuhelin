@@ -285,12 +285,12 @@ const CreateProduct = (props: { closeModal: any, refreshAfterEdit: any }) => {
                     /> */}
                     {/* picker 1 */}
                     <Picker
-                        prompt="Valitse kategoria"
-                        selectedValue={selectedCat}
-                        style={{ height: 50, width: 260 }}
-                        onValueChange={(val) => setCategoryId(val)}
+                        prompt="Valitse tuoteryhmä"
+                        mode="dropdown"
+                        selectedValue={CategoryId}
+                        style={{ left:10, height: 50, width: 260, padding: 10 }}
+                        onValueChange={val => setCategoryId(val)}
                     >
-                        <Picker.Item label="Valitse kategoria" value="All" />
                         {categoriesList}
                     </Picker>
 
@@ -316,11 +316,11 @@ const CreateProduct = (props: { closeModal: any, refreshAfterEdit: any }) => {
                     {/* picker 2 */}
                     <Picker
                         prompt="Valitse toimittaja"
-                        selectedValue={selectedSup}
+                        mode="dropdown"
+                        selectedValue={SupplierId}
                         style={{ height: 50, width: 260 }}
-                        onValueChange={(val) => setSupplierId(val)}
+                        onValueChange={val => setSupplierId(val)}
                     >
-                        <Picker.Item label="Valitse toimittaja" value="All" />
                         {suppliersList}
                     </Picker>
 

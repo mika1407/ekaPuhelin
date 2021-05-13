@@ -30,6 +30,22 @@ interface INWCategories {
     picture: string;
 }
 
+//picker 2
+interface INWSuppliers {
+    supplierId: number;
+    companyName: string;
+    contactName: string;
+    contactTitle: string;
+    address: string;
+    city: string;
+    region: string;
+    postalCode: string;
+    country: string;
+    phone: string;
+    fax: string;
+    homePage: string;
+}
+
 const EditProduct = (props: { passProductId: any, closeModal: any, refreshAfterEdit: any }) => {
     let ProductId = props.passProductId; //Propsi, jonka kutsuva ohjelma asettaa tälle komponentille
     const [ProductName, setProductName] = useState('...');
@@ -42,13 +58,17 @@ const EditProduct = (props: { passProductId: any, closeModal: any, refreshAfterE
     const [UnitsOnOrder, setUnitsOnOrder] = useState('0');
     const [ReorderLevel, setReorderLevel] = useState('0');
     const [Discontinued, setDiscontinued] = useState(false);
-    const [ImageLink, setImageLink] = useState('...');
+    const [ImageLink, setImageLink] = useState('');
     //HOX Validation - jos ei mene läpi, ei tallennapainike ole aktiivinen
     let validaatio = false;
 
     const [selectedCat, setSelectedCat] = useState<any>("All");
     //HOX FILTER
     const [categories, setCategories] = useState<any>([]);
+
+    const [suppliers, setSuppliers] = useState<any>([]);
+    const [selectedSup, setSelectedSup] = useState<any>("All");
+
     //HOX - Picker list for dropdown
     const categoriesList = categories.map((cat: INWCategories, index: any) => {
         return (
@@ -56,9 +76,17 @@ const EditProduct = (props: { passProductId: any, closeModal: any, refreshAfterE
         )
     });
 
+    //picker 2
+    const suppliersList = suppliers.map((sup: INWSuppliers, index:any) => {
+        return (
+            <Picker.Item label={sup.companyName} value={sup.supplierId} key={index} />
+        )
+    });
+
     useEffect(() => {
         GetCategories();
         GetProductData();
+        GetSuppliers();         // picker 2
     }, [props.passProductId]); //ainakun productId -muuttuu päivitetään useEffect...
 
     //Tuotetietojen haku id:llä tietokannasta
@@ -87,6 +115,16 @@ const EditProduct = (props: { passProductId: any, closeModal: any, refreshAfterE
             .then(response => response.json())
             .then((json: INWCategories) => {
                 setCategories(json);
+            })
+    }
+
+    // picker 2
+    function GetSuppliers() {
+        let uri = 'https://webapivscareeria.azurewebsites.net/nw/products/getsupplier';
+        fetch(uri)
+            .then(response => response.json())
+            .then((json: INWSuppliers) => {
+                setSuppliers(json);
             })
     }
 
@@ -157,6 +195,22 @@ const EditProduct = (props: { passProductId: any, closeModal: any, refreshAfterE
     //Sulje details -button
     function closeModal() {
         props.closeModal(true);
+    }
+
+    //Suljetaan ikkuna ja päivitetään lista
+    function closeModalAndRefresh() {
+        props.closeModal();
+        props.refreshAfterEdit();
+    }
+
+    //HOX picker 1 fetch
+    function fetchCategory(value: any) {
+        setSelectedCat(value);
+    }
+
+    //HOX picker 2 fetch
+    function fetchSupplier(value: any) {
+        setSelectedSup(value);
     }
 
     // URL validaatio, käy myös tyhjä. Jos kirjoitusta, niin pitää olla oikean muotoista
@@ -375,7 +429,7 @@ const EditProduct = (props: { passProductId: any, closeModal: any, refreshAfterE
                     />
 
                     <Text style={styles.inputTitle}>Tavarantoimittaja:</Text>
-                    <TextInput style={styles.editInput}
+                    {/* <TextInput style={styles.editInput}
                         underlineColorAndroid="transparent"
                         onChangeText={val => setSupplierId(val)}
                         value={SupplierId.toString()}
@@ -383,7 +437,17 @@ const EditProduct = (props: { passProductId: any, closeModal: any, refreshAfterE
                         autoCapitalize="none"
                         keyboardType='numeric'
                         selectTextOnFocus={true}
-                    />
+                    /> */}
+                    {/* picker 2 */}
+                    <Picker
+                        prompt="Valitse toimittaja"
+                        mode="dropdown"
+                        selectedValue={SupplierId}
+                        style={{left:10, height: 50, width: 260 }}
+                        onValueChange={val => setSupplierId(val)}
+                    >
+                        {suppliersList}
+                    </Picker>
 
                     <Text style={styles.inputTitle}>Tuote poistunut:</Text>
                     <View style={{ flexDirection: 'row', marginLeft: 15, }}>
